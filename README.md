@@ -1,5 +1,5 @@
 #### logloss-benchmarking
-this repo contains simulation script for 
+This repo contains simulation script for 
  1. replicating log-loss at different rate of logs generation (msg line per sec or no of bytes per sec)
  2. measuring log-loss at a given setting of log-size-max limits
  
