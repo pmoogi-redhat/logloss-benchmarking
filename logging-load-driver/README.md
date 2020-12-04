@@ -1,4 +1,7 @@
 # logging-load-driver
+# inherited from https://github.com/ViaQ/logging-load-driver orginal repo
+# added many printf statements to understand what adds to missing logs
+
 
 The `loader` python program will generate a continuous sequence of lines
 using the specified output method, either to stdout (default), a file,
@@ -34,9 +37,9 @@ loader stat: 0000040000   1900.117   1898.565
 loader stat: 0000050000   1880.544   1894.934
 ```
 
-Rate-limit to 10 per second, reporting every 40 logs entries:
+Rate-limit to 10 per second, reporting every 40 logs entries, and sending logs to stdout datastream:
 ```
-$ ./loader --output=/dev/null --report=stderr --msgpersec=10 --report-interval=40
+$ ./loader --output=stdout --report=stderr --msgpersec=10 --report-interval=40
 loader stat: 0000000040     10.242     10.242
 loader stat: 0000000080     10.000     10.119
 loader stat: 0000000120      9.998     10.079
