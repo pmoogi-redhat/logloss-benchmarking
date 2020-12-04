@@ -1,6 +1,6 @@
 #! /bin/bash
 
-#ensure you got podman --version  podman version 2.1.xx
+#ensure you got podman --version  podman version 2.1.xx installed in your system
 
 if [ $1 = "--help"  ]
 then
