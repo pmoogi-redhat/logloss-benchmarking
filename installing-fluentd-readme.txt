@@ -28,3 +28,15 @@ The below docs capture the steps to clone fluentd and other fluentd plugins, do 
 
 
 ## As another option for installing fluentd from source usnig bundle utility is given here https://docs.fluentd.org/installation/install-from-source
+
+
+## installing fluent-prometheus-plugin & adding new metric to its prometheus_tail_monitor plugin
+ step 1 $git clone https://github.com/pmoogi-redhat/fluent-plugin-prometheus.git
+ step 2 $vi lib/fluent/plugin/in_prometheus_tail_monitor.rb, make changes to reflect new metric
+ step 3 $git add lib/fluent/plugin/in_prometheus_tail_monitor.rb and do git commit -m "added new metric as a trial implementation"
+ step 4 $gem build -V fluent-plugin-prometheus.gemspec in your local repo
+ step 5 Before you do gem install on <gem-generated-from-previous step> do 
+     $gem install prometheus-client -v 0.9.0
+ step 6 install fluent-plugin-prometheus plugin
+     $sudo gem install -V  fluent-plugin-prometheus-1.8.5.gem 
+     The above step copies your changes done in the lib/fluent/plugin/in_prometheus_tail_monitor.rb to /usr/local/share/gems/gems/fluent-plugin-prometheus-1.8.5/lib/fluent/plugin/.  so you can hack this by directly copying your changes to this intalled location of plugin
