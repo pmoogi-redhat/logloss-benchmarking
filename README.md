@@ -49,11 +49,15 @@ This repo contains simulation script for
 
 ## Scenario 2 logloss-benchmarking using loader and fluentd being the log collector
 Steps to simulate this scenario is the below.
-   1. Run the container for logging load driver program by using run-container-for-logging-load-driver-program.sh 
+
+   1. Install locally fluentd by following installing-fluentd-readme.txt doc
+   
+   
+   2. Run the container for logging load driver program by using run-container-for-logging-load-driver-program.sh 
    
       $run-container-for-logging-load-driver-program.sh <MSEPERSEC> <MAXSIZELOGFILE> <REPORT_INTERVAL>
    
-   2. run fluentd on local host as the below 
+   3. run fluentd on local host as the below 
   
       $sudo fluentd -c fluent-test-tail.conf
 
