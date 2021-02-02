@@ -1,4 +1,4 @@
-#### logloss-benchmarking using loader and verify-loader programs as standalone setup
+## Scenario 1 logloss-benchmarking using loader and verify-loader programs as standalone setup
 
 This repo contains simulation script for 
  1. replicating log-loss at different rate of logs generation (msg line per sec or no of bytes per sec)
@@ -47,7 +47,7 @@ This repo contains simulation script for
 |--|--|--|--|--|
 
 
-#### logloss-benchmarking using loader and fluentd being the log collector
+## Scenario 2 logloss-benchmarking using loader and fluentd being the log collector
 Steps to simulate this scenario is the below.
    1. Run the container for logging load driver program by using run-container-for-logging-load-driver-program.sh 
       run-container-for-logging-load-driver-program.sh <MSEPERSEC> <MAXSIZELOGFILE> <REPORT_INTERVAL>
