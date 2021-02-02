@@ -57,27 +57,27 @@ run-container-for-logging-load-driver-program.sh <MSEPERSEC> <MAXSIZELOGFILE> <R
 fluent-test-tail.conf is having the below configuration 
 
 
-# Have a source directive for each log file source file.
-<source>
-    # Fluentd input tail plugin, will start reading from the tail of the log
-@type tail
-    # Specify the log file path. This supports wild card character
-path /var/lib/docker/containers/*/*json*.log
-# This is recommended – Fluentd will record the position it last read into this file. Change this folder according to your server
-pos_file PATH /home/pmoogi/docker-containerid.log.pos
-# tag is used to correlate the directives. For example, source with corresponding filter and match directives.
-tag mytagloadlogs
-format /(?<message>.*)/
-#reads the  fields from the log file in the specified format
-</source>
+*# Have a source directive for each log file source file.
+*<source>
+*    # Fluentd input tail plugin, will start reading from the tail of the log
+*@type tail
+*    # Specify the log file path. This supports wild card character
+*path /var/lib/docker/containers/*/*json*.log
+*# This is recommended – Fluentd will record the position it last read into this file. Change this folder according to your server
+*pos_file PATH /home/pmoogi/docker-containerid.log.pos
+*# tag is used to correlate the directives. For example, source with corresponding filter and match directives.
+*tag mytagloadlogs
+*format /(?<message>.*)/
+*#reads the  fields from the log file in the specified format
+*</source>
 
-<source>
- @type prometheus
-</source>
+*<source>
+* @type prometheus
+*</source>
 
-<source>
-  @type prometheus_output_monitor
-</source>
+*<source>
+*  @type prometheus_output_monitor
+*</source>
 
 <source>
   @type prometheus_monitor
