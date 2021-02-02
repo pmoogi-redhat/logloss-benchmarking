@@ -1,4 +1,10 @@
+
+
 The below docs capture the steps to clone fluentd and other fluentd plugins, do customer build of a local gem file, and get that installed in your hostmachine
+##prerequisites
+ 1. ensure you got ruby installed reference : https://www.ruby-lang.org/en/documentation/installation/
+ $ sudo yum install ruby
+
 ##Steps
  1. git clone as git clone https://github.com/pmoogi-redhat/fluentd.git [assuming that you have forked the upstream fluentd into your own remote repo]
  2. Go to your repo 
@@ -19,3 +25,6 @@ The below docs capture the steps to clone fluentd and other fluentd plugins, do 
  ## You may run fluentd process in your hostmachine by the following step
  6. Run fluentd in the local host machine with the above plugin code changes reflected by running the below
     $sudo fluentd -c fluent-test-tail.conf
+
+
+## As another option for installing fluentd from source usnig bundle utility is given here https://docs.fluentd.org/installation/install-from-source
