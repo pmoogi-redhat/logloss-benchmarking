@@ -1,5 +1,4 @@
 #! /bin/bash
-
 #ensure you got Docker version 20.10.2, installed
 
 if [ $1 = "--help"  ]
@@ -26,7 +25,19 @@ export TOTAL_SIZE=100
 
 export NOW=$(date +"%m%d%Y%H%M")
 
-echo Messagelines_per_sec=$MSGPERSEC Max_size_log_file_limit=$MAXSIZE Report Interval=$REPORT_INTERVAL Payload_size bytes=$PAYLOAD_SIZE Payload Gen Method=${PAYLOAD_GEN} Payload std dev=${STDDEV} Logs from container writing to data pipe type=$OUTPUT Reporting method=$REPORT Report Interval=$REPORT_INTERVAL TOTAL_SIZE considered for counting log-loss =$TOTAL_SIZE
+echo "Configuration:
+-=-=-=-=-=-=-
+Messagelines_per_sec=$MSGPERSEC
+Max_size_log_file_limit=$MAXSIZE
+Report Interval=$REPORT_INTERVAL
+Payload_size bytes=$PAYLOAD_SIZE
+Payload Gen Method=${PAYLOAD_GEN}
+Payload std dev=${STDDEV}
+Logs from container writing to data pipe type=$OUTPUT
+Reporting method=$REPORT
+Report Interval=$REPORT_INTERVAL
+TOTAL_SIZE considered for counting log-loss =$TOTAL_SIZE
+"
 
 
 function pause(){
@@ -45,9 +56,12 @@ export dockerimageid=`docker images | grep latest | grep docker-logging-load-dri
 DockerCMD="docker run -v /etc/group:/etc/group:ro -v /etc/passwd:/etc/passwd:ro -u $( id -u $USER ):$( id -g $USER ) -v /var/lib/docker/containers:/var/lib/docker/containers:ro  --log-opt max-size=$MAXSIZE  --log-opt tag="docker.{{.ID}}"  --env MSGPERSEC --env PAYLOAD_GEN --env PAYLOAD_SIZE --env DISTRIBUTION --env STDDEV --env OUTPUT --env REPORT --env REPORT_INTERVAL --env TOTAL_SIZE $dockerimageid"
 
 
-pause 'Press [Enter] key to run container...with '
+echo -e "About to execute following (in docker):
+-==--==-=-=-\n
+${DockerCMD}\n
+Press [Enter] key to execute"
+pause
 
 ####
-echo GOING To RUN Docker run with given image id --- ${DockerCMD}
 $DockerCMD
 pause 'post docker cmd execution'
