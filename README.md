@@ -6,10 +6,10 @@ This repo contains simulation script for
  The loader and verifiy-loader scripts are taken from https://github.com/ViaQ/logging-load-driver
  They are further changed to have more debug/print statements for better understanding on log-loss.
  
- Simulation script uses a custom conmon binary which is changed for setting a specific value of log-size-max 
- Above is done using hardcoded way as podman latest version doesn't support passing run time this value via configuration variable.
+ Simulation script can use a custom conmon binary which is changed to log in extra meta data on log-rotation event and timestamps
+ ${LOCALBIN}/podman run --log-level debug --conmon $conmonlatestlib --env MSGPERSEC --env PAYLOAD_GEN --env PAYLOAD_SIZE --env DISTRIBUTION --env STDDEV --env OUTPUT  --env REPORT --env REPORT_INTERVAL --env TOTAL_SIZE --log-opt max-size=$MAXSIZE  $imageid" 
  
- Below Results are obtained on setting of MSGPERSEC=100 to 10000 log-lines per sec, pay-load size 1014 bytes, payload_gen method as fixed (not random) etc.
+ Below Results are obtained on setting of MSGPERSEC=100 to 10000 log-lines per sec, pay-load size 1024 bytes, payload_gen method as fixed (not random) etc.
  
 
 |msq-lines-per-sec log generation rate | Rate of writing to disk bytes per sec | Log-max-size limit set to.. | Loss rate(mb per sec) as we see.. |msg-len set to |
