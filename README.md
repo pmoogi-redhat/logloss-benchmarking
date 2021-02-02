@@ -49,43 +49,38 @@ This repo contains simulation script for
 
 #### logloss-benchmarking using loader and fluentd being the log collector
 Steps to simulate this scenario is the below.
-  1. Run the container for logging load driver program by using run-container-for-logging-load-driver-program.sh \
-     run-container-for-logging-load-driver-program.sh <MSEPERSEC> <MAXSIZELOGFILE> <REPORT_INTERVAL>. \
-  2. run fluentd on local host as the below \
-  $sudo fluentd -c fluent-test-tail.conf
+   1. Run the container for logging load driver program by using run-container-for-logging-load-driver-program.sh 
+      run-container-for-logging-load-driver-program.sh <MSEPERSEC> <MAXSIZELOGFILE> <REPORT_INTERVAL>
+   2. run fluentd on local host as the below 
+   $sudo fluentd -c fluent-test-tail.conf
 
-  fluent-test-tail.conf is having the below configuration \
+   fluent-test-tail.conf is having the below configuration 
 
-*# Have a source directive for each log file source file. \
-*<source> \
-### Fluentd input tail plugin, will start reading from the tail of the log \
-@type tail \
-### Specify the log file path. This supports wild card character \
-path /var/lib/docker/containers/*/*json*.log \
-### This is recommended – Fluentd will record the position it last read into this file. Change this folder according to your server \
-pos_file PATH /home/pmoogi/docker-containerid.log.pos \
-### tag is used to correlate the directives. For example, source with corresponding filter and match directives. \
-tag mytagloadlogs \
-format /(?<message>.*)/. \
-###reads the  fields from the log file in the specified format \
-</source>\
+### Have a source directive for each log file source file. \
+  <source> 
+  @type tail 
+  path /var/lib/docker/containers/*/*json*.log 
+  pos_file PATH /home/pmoogi/docker-containerid.log.pos 
+  tag mytagloadlogs 
+  format /(?<message>.*)/. 
+  </source>
 
-<source>\
- @type prometheus\
-</source>\
+  <source>
+   @type prometheus
+  </source>
 
-<source>\
-@type prometheus_output_monitor\
-</source>\
+  <source>
+  @type prometheus_output_monitor
+  </source>
 
-<source>\
-  @type prometheus_monitor\
-</source>\
+  <source>
+    @type prometheus_monitor
+  </source>
 
-<source>\
-  @type prometheus_tail_monitor\
-</source>\
+  <source>
+    @type prometheus_tail_monitor
+  </source>
 
-<match **>\
-  @type stdout\
-</match>\
+  <match **>
+    @type stdout
+  </match>
