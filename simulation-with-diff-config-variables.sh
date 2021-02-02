@@ -37,7 +37,7 @@ function pause(){
 #step 2 make all
 
 #get imageid post getting the image built
-export imageid=`podman images | grep latest | grep new-logging-load-driver | awk '{print $3}'`
+export imageid=`podman images | grep latest | grep podman-logging-load-driver-image | awk '{print $3}'`
 
 #build a custom conmon in ${HOME}/FlowControl/Containers/conmon by building 'all' target "make all" 
 #install this binary for podman by doing make podman, note this step copies bin/conmon to /usr/local/libexec/podman/conmon
