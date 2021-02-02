@@ -52,35 +52,7 @@ Steps to simulate this scenario is the below.
    1. Run the container for logging load driver program by using run-container-for-logging-load-driver-program.sh 
       run-container-for-logging-load-driver-program.sh <MSEPERSEC> <MAXSIZELOGFILE> <REPORT_INTERVAL>
    2. run fluentd on local host as the below 
+  
    $sudo fluentd -c fluent-test-tail.conf
 
-   fluent-test-tail.conf is having the below configuration 
-
-### Have a source directive for each log file source file. \
-  <source> 
-  @type tail 
-  path /var/lib/docker/containers/*/*json*.log 
-  pos_file PATH /home/pmoogi/docker-containerid.log.pos 
-  tag mytagloadlogs 
-  format /(?<message>.*)/. 
-  </source>
-
-  <source>
-   @type prometheus
-  </source>
-
-  <source>
-  @type prometheus_output_monitor
-  </source>
-
-  <source>
-    @type prometheus_monitor
-  </source>
-
-  <source>
-    @type prometheus_tail_monitor
-  </source>
-
-  <match **>
-    @type stdout
-  </match>
+please check the content of fluent-test-tail.conf for configuring input and output plugins for fluentd
