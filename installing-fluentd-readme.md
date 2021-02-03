@@ -5,7 +5,7 @@ The below captures the steps to clone fluentd and other fluentd plugins, do cust
 
 > note: as pre-req you need ruby version 2.7 installed (e.g. instructions for [centos](https://tecadmin.net/install-ruby-latest-stable-centos/))  
 
-##Steps
+##Follow the steps as the below
  
  1. git clone  
     `git clone https://github.com/pmoogi-redhat/fluentd.git`    
@@ -42,7 +42,9 @@ The below captures the steps to clone fluentd and other fluentd plugins, do cust
 
 
 ## installing fluent-prometheus-plugin & adding new metric to its prometheus_tail_monitor plugin
-Steps
+
+##Follow the steps as the below
+
      $git clone https://github.com/pmoogi-redhat/fluent-plugin-prometheus.git
      
      $vi lib/fluent/plugin/in_prometheus_tail_monitor.rb, make changes to reflect new metric
