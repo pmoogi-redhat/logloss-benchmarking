@@ -11,6 +11,8 @@ The below docs capture the steps to clone fluentd and other fluentd plugins, do 
     $ cd path/to/fluentd/
  3. Do 
    $gem build -V fluentd.gemspec
+ 4. Sort out dependency gems 
+   $bundler install 
  4. Do gem install
    $gem install -V --local fluentd-1.12.0.gem 
    
