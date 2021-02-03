@@ -15,9 +15,11 @@ This repo contains simulation script for
  Below Results are obtained on setting of MSGPERSEC=100 to 10000 log-lines per sec, pay-load size 1024 bytes, payload_gen method as fixed (not random) etc.
  You can replicate these results by running the below scripts :
  
- $simulation-with-diff-config-variables.sh <MSGPERSEC> <MAXSIZE> <TOTALDURATION_OF_RUN>
- example as shown below
- $simulation-with-diff-config-variables.sh 1000 1024000 10 
+   $simulation-with-diff-config-variables.sh MSGPERSEC MAXSIZE TOTALDURATION_OF_RUN
+ 
+   example as shown below
+ 
+   $simulation-with-diff-config-variables.sh 1000 1024000 10 
  
  [The Above generates 1000 loglines per sec of payload 1024 bytes, maxsize of logfile being 1024000 bytes, REPORT INTERVAL being set to 10 sec by loader program]
  
