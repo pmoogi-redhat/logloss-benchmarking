@@ -4,7 +4,9 @@
 The below captures the steps to clone fluentd and other fluentd plugins, do custom build of a local gem file, and get that installed in your hostmachine
 
 > note: as pre-req you need ruby version 2.7 installed (e.g. instructions for [centos](https://tecadmin.net/install-ruby-latest-stable-centos/))  
+
 ##Steps
+ 
  1. git clone  
     `git clone https://github.com/pmoogi-redhat/fluentd.git`    
  > note: assuming you have forked the upstream fluentd into your own remote repo
