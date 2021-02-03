@@ -38,7 +38,7 @@ The below captures the steps to clone fluentd and other fluentd plugins, do cust
      
   `fluentd -c fluent.conf`  
     
-#### As another option for installing fluentd from source usnig bundle utility is given here https://docs.fluentd.org/installation/install-from-source
+ > note : As another option for installing fluentd from source usnig bundle utility is given here https://docs.fluentd.org/installation/install-from-source
 
 
 ### installing fluent-prometheus-plugin & adding new metric to its prometheus_tail_monitor plugin
