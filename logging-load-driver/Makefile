@@ -5,5 +5,5 @@ Docker/loader: loader
 	cp loader Docker/loader
 
 build: Docker/loader
-	podman build -t podman-logging-load-driver-image Docker
+	# podman build -t podman-logging-load-driver-image Docker
 	docker build -t docker-logging-load-driver-image Docker
