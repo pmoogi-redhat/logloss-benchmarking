@@ -29,6 +29,7 @@ The below captures the steps to clone fluentd and other fluentd plugins, do cust
    The changed plugin files can be reflected in the installed directory by copying update file into the below default installed directories  
    `cp /path/to/fluentd/lib/fluent/plugin/in_tail.rb /usr/local/share/gems/gems/fluentd-1.12.0/lib/fluent/plugin/.`
    OR do a fresh gem build as described from step 3 to create a new installation  
+    
     > note: Step 5 actually copies plugin .rb files into `/usr/local/share/gems/gems/fluentd-1.12.0/lib/fluent/plugin/.` directory  
    
    Similarly, other plugins can be changed and installed by hacking the above step
@@ -58,4 +59,5 @@ The below captures the steps to clone fluentd and other fluentd plugins, do cust
  
      Install the fluent-plugin-prometheus plugin
      $sudo gem install -V  fluent-plugin-prometheus-1.8.5.gem
+    
      > note: The above step copies your changes done in the lib/fluent/plugin/in_prometheus_tail_monitor.rb to /usr/local/share/gems/gems/fluent-plugin-prometheus-1.8.5/lib/fluent/plugin/.  so you can hack this by directly copying your changes to this intalled location of plugin
