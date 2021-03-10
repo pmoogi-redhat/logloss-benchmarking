@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: capturestatistics
+objects:
+#
+# Deployment of fluentd log collector
+#
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: capturestatistics
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: capturestatistics
+    template:
+      metadata:
+        labels:
+          app: capturestatistics
+      spec:
+        containers:
+        - image: registry.fedoraproject.org/fedora
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+          imagePullPolicy: Always
+          name: capturestatistics
+          command: ["/bin/bash"]
+          args:
+          - -c
+          - >
+            yum install -y procps;
+            echo "Collecting Statistics";
+            while true; do
+              echo "====> Statistics on: $(date)";
+              ps -A -o %cpu,%mem,cmd | grep fluentd/0.log | awk '{print $1,$2,"fluentd"}' | head -n -1
+              ps -A -o %cpu,%mem,cmd | grep heavy-log-stress/0.log | awk '{print $1,$2,"heavy-stress"}' | head -n -1
+              ps -A -o %cpu,%mem,cmd | grep low-log-stress/0.log | awk '{print $1,$2,"low-stress"}' | head -n -1
+
+              echo "====> ";
+              echo "";
+              sleep 60;
+            done;        
+        hostPID: true
+          
