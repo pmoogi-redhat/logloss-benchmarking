@@ -4,41 +4,14 @@ metadata:
   name: logstress
 objects:
 #
-# Deployment of N replicas of low-log-stress pods (10 logs per second)
-#
-- apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: low-log-stress
-  spec:
-    replicas: 10
-    selector:
-      matchLabels:
-        app: low-log-stress
-    template:
-      metadata:
-        labels:
-          app: low-log-stress
-      spec:
-        containers:
-        - image: cognetive/logging-load-driver:0.1
-          imagePullPolicy: Always
-          name: low-log-stress
-          command: ["/loader"]
-          args:
-          - --msgpersec=100
-          - --distribution=fixed
-          - --payload-gen=fixed
-        restartPolicy: Always
-#
-# Deployment of M replicas of heavy-log-stress pods (1000 logs per second)
+# Deployment replicas of heavy-log-stress pods
 #
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: heavy-log-stress
   spec:
-    replicas: 4
+    replicas: ${{number_heavy_stress_containers}}
     selector:
       matchLabels:
         app: heavy-log-stress
@@ -48,12 +21,83 @@ objects:
           app: heavy-log-stress
       spec:
         containers:
-        - image: cognetive/logging-load-driver:0.1
+        - image: registry.fedoraproject.org/fedora
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
           imagePullPolicy: Always
-          name: heavy-log-stress
-          command: ["/loader"]
+          name: low-log-stress
+          command: ["/bin/bash"]
           args:
-          - --msgpersec=10000
-          - --distribution=fixed
-          - --payload-gen=fixed
-        restartPolicy: Always
+            - -c
+            - >
+              yum install -y procps;
+              yum install -y unzip;
+              unzip /go/bin/log-stressor.zip;
+              ./log-stressor --msgpersec=${heavy_containers_msg_per_sec}  ;
+              echo ".";
+              echo "NEVER GET HERE --> this code is for future performance testing";
+              echo ".";
+              while true; do
+                echo "->";
+                sleep 60;
+              done;
+          volumeMounts:
+            - name: log-stressor
+              mountPath: /go/bin
+        volumes:
+          - name: log-stressor
+            configMap:
+              name: log-stressor-binary-zip
+#
+# Deployment replicas of low-log-stress pods
+#
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: low-log-stress
+  spec:
+    replicas: ${{number_low_stress_containers}}
+    selector:
+      matchLabels:
+        app: low-log-stress
+    template:
+      metadata:
+        labels:
+          app: low-log-stress
+      spec:
+        containers:
+        - image: registry.fedoraproject.org/fedora
+          securityContext:
+            privileged: true
+            allowPrivilegeEscalation: true
+          imagePullPolicy: Always
+          name: low-log-stress
+          command: ["/bin/bash"]
+          args:
+            - -c
+            - >
+              yum install -y procps;
+              yum install -y unzip;
+              unzip /go/bin/log-stressor.zip;
+              ./log-stressor --msgpersec=${low_containers_msg_per_sec}  ;
+              echo ".";
+              echo "NEVER GET HERE --> this code is for future performance testing";
+              echo ".";
+              while true; do
+                echo "->";
+                sleep 60;
+              done;
+          volumeMounts:
+            - name: log-stressor
+              mountPath: /go/bin
+        volumes:
+          - name: log-stressor
+            configMap:
+              name: log-stressor-binary-zip
+parameters:
+- name: number_heavy_stress_containers
+- name: heavy_containers_msg_per_sec
+- name: number_low_stress_containers
+- name: low_containers_msg_per_sec
+
