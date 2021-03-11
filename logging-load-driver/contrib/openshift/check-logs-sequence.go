@@ -46,7 +46,11 @@ func main() {
     }
 
     for line := range t.Lines() {
-        jsonString := "{"+strings.Split(strings.Split(line.String(), "{")[1],"}")[0]+"}"
+        lineSplit := strings.Split(line.String(), "{")
+        if len(lineSplit) < 2 {
+            continue
+        }
+        jsonString := "{"+strings.Split(lineSplit[1],"}")[0]+"}"
         var j map[string]interface{}
         if err1 := json.Unmarshal([]byte(jsonString), &j); err1 != nil {
             continue
