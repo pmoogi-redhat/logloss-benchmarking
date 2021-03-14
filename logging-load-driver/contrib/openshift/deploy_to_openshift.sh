@@ -14,7 +14,7 @@ usage: deploy_to_openshift [options]
   options:
     -h, --help              Show usage
     -e  --evacuate=[enum]   Evacuate node  (false, true  default: false)
-    -p  --profile=[enum]    Stress profile (no-stress, very-light, light, medium, heavy  default: very-light)
+    -p  --profile=[enum]    Stress profile (no-stress, very-light, light, medium, heavy, heavy-loss  default: very-light)
     -i  --image=[string]    Fluentd image to use (default: quay.io/openshift/origin-logging-fluentd:latest)
 "
   exit 0
@@ -73,10 +73,18 @@ select_stress_profile() {
         maximum_logfile_size=1048576;
         shift ;;
       "heavy")
-        number_heavy_stress_containers=4;
-        heavy_containers_msg_per_sec=100000;
-        number_low_stress_containers=20;
-        low_containers_msg_per_sec=10;
+        number_heavy_stress_containers=0;
+        heavy_containers_msg_per_sec=0;
+        number_low_stress_containers=10;
+        low_containers_msg_per_sec=1500;
+        number_of_log_lines_between_reports=200000;
+        maximum_logfile_size=1048576;
+        shift ;;
+      "heavy-loss")
+        number_heavy_stress_containers=2;
+        heavy_containers_msg_per_sec=20000;
+        number_low_stress_containers=8;
+        low_containers_msg_per_sec=1500;
         number_of_log_lines_between_reports=200000;
         maximum_logfile_size=1048576;
         shift ;;
