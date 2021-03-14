@@ -169,8 +169,8 @@ func report(reportData reportStatistics, logsCurrentInfo map[string]logSourceInf
     }
 
     log.Printf("-==-=-=-=-=\n")
-    tableFormat := "| %-38v | %-9v | %-9v | %-9v | %-9v | %-9v | %-9v | %-9v |\n"
-    tableFormatLen := len(fmt.Sprintf(tableFormat,0,0,0,0,0,0,0,0))-1
+    tableFormat := "| %-36v | %-9v | %-9v | %-9v | %-9v | %-9v | %-9v | %-9v | %-9v |\n"
+    tableFormatLen := len(fmt.Sprintf(tableFormat,0,0,0,0,0,0,0,0,0))-1
     log.Printf(strings.Repeat("-", tableFormatLen))
     log.Printf(tableFormat,
         "",
@@ -180,6 +180,7 @@ func report(reportData reportStatistics, logsCurrentInfo map[string]logSourceInf
         "Total",
         "Lines",
         "",
+        "",
         "")
     log.Printf(strings.Repeat("-", tableFormatLen))
     log.Printf(tableFormat,
@@ -188,9 +189,11 @@ func report(reportData reportStatistics, logsCurrentInfo map[string]logSourceInf
         "Collected",
         "Loss",
         "Logged",
+        "Lo./Sec",
         "Collected",
+        "Co./Sec",
         "Loss",
-        "Coll./Sec")
+        )
     log.Printf(strings.Repeat("-", tableFormatLen))
 
     names := make([]string, 0)
@@ -207,9 +210,10 @@ func report(reportData reportStatistics, logsCurrentInfo map[string]logSourceInf
             entry.collectedCount,
             entry.loggedCount - entry.collectedCount,
             totalEntry.loggedCount,
+            totalEntry.loggedCount / deltaTimeInSeconds,
             totalEntry.collectedCount,
-            totalEntry.loggedCount - totalEntry.collectedCount,
             totalEntry.collectedCount / deltaTimeInSeconds,
+            totalEntry.loggedCount - totalEntry.collectedCount,
             )
 
     }

@@ -93,6 +93,7 @@ deploy_capture_statistics() {
   echo "--> Deploying $DEPLOY_YAML - with ($1)"
   rm check-logs-sequence.zip
   rm check-logs-sequence
+  go get -u github.com/papertrail/go-tail
   go build -ldflags "-s -w" check-logs-sequence.go
   zip check-logs-sequence.zip  check-logs-sequence
   oc delete configmap --ignore-not-found=true check-logs-sequence-binary-zip
