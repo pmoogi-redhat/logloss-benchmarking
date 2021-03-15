@@ -7,6 +7,7 @@ source ./deploy_functions.sh
 stress_profile="very-light"
 evacuate_node="false"
 fluentd_image="quay.io/openshift/origin-logging-fluentd:latest"
+gologfilewatcher_image="docker.io/cognetive/go-log-file-watcher-driver-v0"
 
 show_usage() {
   echo "
@@ -15,7 +16,8 @@ usage: deploy_to_openshift [options]
     -h, --help              Show usage
     -e  --evacuate=[enum]   Evacuate node  (false, true  default: false)
     -p  --profile=[enum]    Stress profile (no-stress, very-light, light, medium, heavy, heavy-loss  default: very-light)
-    -i  --image=[string]    Fluentd image to use (default: quay.io/openshift/origin-logging-fluentd:latest)
+    -i1  --image=[string]    Fluentd image to use (default: quay.io/openshift/origin-logging-fluentd:latest)
+    -i2  --image=[string]    Gologfilewatcher image to use (default: docker.io/cognetive/go-log-file-watcher-driver-v0)
 "
   exit 0
 }
@@ -25,7 +27,8 @@ do
 case $i in
     -e=*|--evacuate_node=*) evacuate_node="${i#*=}"; shift ;;
     -p=*|--profile=*) stress_profile="${i#*=}"; shift ;;
-    -i=*|--image=*) fluentd_image="${i#*=}"; shift ;;
+    -i1=*|--image=*) fluentd_image="${i#*=}"; shift ;;
+    -i2=*|--image=*) gologfilewatcher_image="${i#*=}"; shift ;;
     --nothing) nothing=true; shift ;;
     -h|--help|*) show_usage;;
 esac
@@ -110,6 +113,7 @@ Low stress containers msg per second --> $low_containers_msg_per_sec
 Number of log lines between reports --> $number_of_log_lines_between_reports
 Maximum size of log file --> $maximum_logfile_size
 Fluentd image used --> $fluentd_image
+Gologfilewatcher image used --> $gologfilewatcher_image
 "
 }
 
@@ -124,6 +128,7 @@ main() {
   set_credentials
   deploy_logstress $number_heavy_stress_containers $heavy_containers_msg_per_sec $number_low_stress_containers $low_containers_msg_per_sec
   deploy_log_collector "$fluentd_image"
+  deploy_gologfilewatcher "$gologfilewatcher_image"
   deploy_capture_statistics $number_of_log_lines_between_reports
 
   if $evacuate_node ; then evacuate_node_for_performance_tests; fi

@@ -86,6 +86,16 @@ deploy_log_collector() {
     | oc apply -f -
 }
 
+#deploy gologfilewatch container
+deploy_gologfilewatcher() {
+	DEPLOY_YAML=gologfilewatcher-template.yaml
+
+	echo "--> Deploying $DEPLOY_YAML -with ($1)"
+	oc process -f $DEPLOY_YAML \
+		-p gologfilewatcher_image="$1" \
+		| oc apply -f -
+}
+
 # deploy capture statistics container
 deploy_capture_statistics() {
   DEPLOY_YAML=capture-statistics-template.yaml
