@@ -139,6 +139,12 @@ func parseLine(line string) (err error,name string, seq int64) {
         err = errors.New("parseLine: can't parse / in path")
         return err, "", 0
     }
+
+    if nameSliced[3] != "containers" {
+        err = errors.New("parseLine: can't parse / path -> follow only  /var/log/containers ")
+        return err, "", 0
+    }
+
     name = nameSliced[4]
 
     // get the sequence number of the log

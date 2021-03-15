@@ -35,11 +35,10 @@ objects:
             yum install -y unzip;
             unzip /go/bin/check-logs-sequence.zip;
             echo "Collecting Statistics";
-            FLUENT_FILE=$(ps -A -o %cpu,%mem,cmd | grep -E "^[ 0-9]+.[0-9]+ [ 0-9]+.[0-9]+ /usr/libexec/crio/conmon" | grep logstress_fluentd | grep 0.log | grep -o "[^ ]*fluentd/0.log");
-            FLUENT_FILE=/var/log/containers/fluentd.stresslog.log;
-            echo -e "\nFluentd log file is: $FLUENT_FILE\n";
-            touch $FLUENT_FILE;
-            ./check-logs-sequence -f $FLUENT_FILE -c ${number_of_log_lines_between_reports} &
+            OUTPUT_FILE=/var/log/containers/stress.log;
+            echo -e "\nOutput log file is: $OUTPUT_FILE\n";
+            touch $OUTPUT_FILE;
+            ./check-logs-sequence -f $OUTPUT_FILE -c ${number_of_log_lines_between_reports} &
             echo ".";
             while true; do
               echo "====> Top information on: $(date)";

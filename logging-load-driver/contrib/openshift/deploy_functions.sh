@@ -3,7 +3,7 @@
 # Selecting worker node to use
 select_node_to_use() {
   echo "--> Selecting node to use" 
-  export NODE_TO_USE=$(oc get nodes --selector='!node-role.kubernetes.io/master' --sort-by=".metadata.name" -o=jsonpath='{.items[0].metadata.name}')
+  NODE_TO_USE=$(oc get nodes --selector='!node-role.kubernetes.io/master' --sort-by=".metadata.name" -o=jsonpath='{.items[0].metadata.name}')
   echo "Using node: $NODE_TO_USE" 
 }
 
@@ -75,7 +75,7 @@ deploy_logstress() {
 }
 
 # deploy log collector (fluentd) container
-deploy_log_collector() {
+deploy_log_collector_fluentd() {
   DEPLOY_YAML=fluentd-template.yaml
 
   echo "--> Deploying $DEPLOY_YAML - with ($1)"
@@ -94,6 +94,18 @@ deploy_gologfilewatcher() {
 	oc process -f $DEPLOY_YAML \
 		-p gologfilewatcher_image="$1" \
 		| oc apply -f -
+}
+
+# deploy log collector (fluentbit) container
+deploy_log_collector_fluentbit() {
+  DEPLOY_YAML=fluentbit-template.yaml
+
+  echo "--> Deploying $DEPLOY_YAML - with ($1)"
+  oc delete configmap --ignore-not-found=true fluentbit-config
+  oc create configmap fluentbit-config --from-file=fluentbit.conf --from-file=fluentbit.parsers.conf
+  oc process -f $DEPLOY_YAML \
+    -p fluentbit_image="$1" \
+    | oc apply -f -
 }
 
 # deploy capture statistics container
@@ -115,7 +127,7 @@ deploy_capture_statistics() {
 
 evacuate_node_for_performance_tests() {
   echo "--> Evacuating $NODE_TO_USE"
-  oc get pods --all-namespaces -o wide | grep $NODE_TO_USE
+  oc get pods --all-namespaces -o wide | grep "$NODE_TO_USE"
   
   oc adm cordon "$NODE_TO_USE"
   oc adm drain "$NODE_TO_USE" --pod-selector='app notin (low-log-stress,heavy-log-stress,fluentd,capturestatistics)' --ignore-daemonsets=true --delete-local-data --force
