@@ -1,5 +1,13 @@
-# logloss-benchmarking
+# simulating log generation 
+You can run the below script. It uses <max-log-file-size in bytes> <gap between two consecutive log line in sec> <duration of run in sec> <logfile path> <no of max backupfiles> as command line argument
+$./log-rotation-with-maxsize-experiments.sh 1024000 0.0001 100 LOGFILES/py_test.log 1000
+ 
+You can run the below script. It uses <periodicity at which file get rotated> <gap between two consecutive log line in sec> <duration of run in sec> <logfile path> <no of max backupfiles> as command line argument
+$./log-rotation-with-periodicity-experiments.sh 1024000 0.0001 100 LOGFILES/py_test.log 1000
 
+The above allows you to generate log lines at different rates. Payload is fixed to 1024 bytes. You can change that too.
+
+# logloss-benchmarking
 This repo used to experience and simulate log loss scenarios using Fluentd
 
 The repo contains simulation script for 
